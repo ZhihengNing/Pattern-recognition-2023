@@ -1,0 +1,16 @@
+Area
+Perimeter
+MajorAxisLength
+MinorAxisLength
+AspectRatio
+Eccentricity
+ConvexArea
+EquivDiameter
+Extent
+Solidity
+Roundness
+Compactness
+ShapeFactor1
+ShapeFactor2
+ShapeFactor3
+ShapeFactor4

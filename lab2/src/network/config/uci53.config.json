@@ -1,0 +1,12 @@
+{
+  "DATA_ID": 53,
+  "Epoch_Times": 1000,
+  "Iterator_Times": 20,
+  "Lr": 0.005,
+  "Seed": 10262,
+  "Data_Type": "uci53",
+  "Use_Binary_Classify": false,
+  "Use_Stand": false,
+  "Use_Pca": false,
+  "Ratio": 0.8
+}

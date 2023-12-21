@@ -1,0 +1,12 @@
+{
+  "DATA_ID": "mnist",
+  "Epoch_Times": 12,
+  "Iterator_Times": 500,
+  "Lr": 0.01,
+  "Seed": 10262,
+  "Data_Type": "mnist",
+  "Use_Binary_Classify": false,
+  "Use_Stand": false,
+  "Use_Pca": false,
+  "Ratio": 0.8
+}

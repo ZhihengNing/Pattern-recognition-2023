@@ -1,0 +1,13 @@
+class
+Alcohol
+Malicacid
+Ash
+Alcalinity_of_ash
+Magnesium
+Total_phenols
+Flavanoids
+Nonflavanoid_phenols
+Proanthocyanins
+Color_intensity
+Hue
+0D280_0D315_of_diluted_wines

@@ -1,0 +1,90 @@
+\documentclass[12pt,a4paper]{ctexart}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+
+
+\title{\heiti 多元正态分布的极大似然估计}
+\author{宁之恒}
+\date{}
+\begin{document}
+\maketitle
+\subsection*{多元正态分布}
+\noindent 给定多元形式下的正态分布概率密度函数($\boldsymbol{x} \sim N_p(\boldsymbol{u},\boldsymbol{\Sigma})$)：
+\begin{equation*}
+f(\boldsymbol{x})= \frac{1}{(2\pi)^\frac{p}{2} | \boldsymbol{\Sigma}|^\frac{1}{2}} 
+\exp[{-\frac{1}{2}} (\boldsymbol{x-u})^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x-u})]
+\end{equation*}
+其中$\boldsymbol{x} \in \mathbb{R}^p, \boldsymbol{u} \in \mathbb{R}^p,\boldsymbol{\Sigma} \in \mathcal{S}_{+}^p$。\\
+接着对于样本集$\mathcal{D}=\{(\boldsymbol{x_1},y_1),\ldots,(\boldsymbol{x_n},y_n)\}$，其中$\boldsymbol{x_i} \in \mathbb{R}^n,y_i \in \mathbb{R}, |\mathcal{D}|=n$。参照定义，给出极大似然函数：
+\begin{equation*}
+\begin{split}
+L(\boldsymbol{u},\boldsymbol{\Sigma})
+&=\prod_{i=1}^n f(\boldsymbol{x_i})\\
+&= \frac{1}{(2\pi)^\frac{pn}{2} | \boldsymbol{\Sigma}|^\frac{n}{2}} 
+\exp[{-\frac{1}{2}}  \sum_{i=1}^n (\boldsymbol{x_i-u})^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x_i-u})]
+\end{split}
+\end{equation*}
+对其取对数，并进行化简：
+\begin{align*}
+\begin{split}
+\ln{L(\boldsymbol{u},\boldsymbol{\Sigma})}
+&=-\frac{pn}{2}\ln(2\pi) -\frac{n}{2}\ln|\boldsymbol{\Sigma}|-\frac{1}{2}\sum_{i=1}^n {(\boldsymbol{x_i-u})^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x_i-u})}
+\end{split}
+\end{align*}
+\subsection*{矩阵求导公式}
+\noindent 给出可能会用到的求导公式：
+\begin{gather}
+\frac{\partial{\ln{|\boldsymbol{X}|}}}{\partial{\boldsymbol {X}}}=\boldsymbol{X^{-T}} \label{solveSigma1}\\
+\frac{\partial{\ln(\boldsymbol{\lambda^T X^{-1}\lambda})}}{\partial{\boldsymbol{X}}}=-(\boldsymbol{X^{-1} \lambda \lambda^T X^{-1}})^T  \label{solveSigma2}\\
+\frac{\partial{(\boldsymbol{\lambda-x})^T \boldsymbol{\Sigma^{-1}} (\boldsymbol{\lambda-x})}}{\partial{\boldsymbol{x}}}=[\boldsymbol{(\lambda-x)^T (\Sigma^{-T}+\Sigma^{-1})}]^T \label{solveu}
+\end{gather}
+接着记$\frac{\partial{f(\boldsymbol{X})}}{\partial{\boldsymbol{X}}}=\boldsymbol{A}$，其中$\boldsymbol{X} \in \mathbb{R}^{n \times n} ,f:\mathbb{R}^{n \times n} \rightarrow \mathbb{R}$。那么对于对称矩阵$\boldsymbol{X} \in S^n$，我们有如下形式：
+\begin{equation}
+\frac{\partial{f(\boldsymbol{X})}}{\partial{\boldsymbol{X}}}=\boldsymbol{A^T +A - A\circ E}
+\end{equation}
+其中$\circ$为Hadamard product，此处不给出证明。\\
+\noindent 已知$\boldsymbol{X} \in \mathcal{S}^n $，则式\eqref{solveSigma1}，\eqref{solveSigma2} 可以变成如下的 \eqref{solveSigma3}，\eqref{solveSigma4}：
+\begin{align}
+\frac{\partial{\ln{|\boldsymbol{X}|}}}{\partial{\boldsymbol {X}}}
+=\boldsymbol{X^{-1}}+\boldsymbol{X^{-T}}-\boldsymbol{X^{-T}}\circ \boldsymbol{E} 
+\label{solveSigma3}
+\end{align}
+
+\begin{equation}
+\begin{split}
+\frac{\partial{\ln(\boldsymbol{\lambda^T X^{-1}\lambda})}}{\partial{\boldsymbol{X}}}
+=&-(\boldsymbol{X^{-1} \lambda \lambda^T X^{-1}})\\
+&-(\boldsymbol{X^{-1} \lambda \lambda^T X^{-1}})^T\\
+&+(\boldsymbol{X^{-1} \lambda \lambda^T X^{-1}})^T \circ \boldsymbol{E}
+\label{solveSigma4}
+\end{split}
+\end{equation}
+\noindent 由式\eqref{solveu}可得：
+\begin{equation}
+\begin{split}
+\frac{\partial{\ln{L(\boldsymbol{u},\boldsymbol{\Sigma})}}}{\partial{\boldsymbol{u}}}
+&=-\frac{1}{2} \sum_{i=0}^n \frac{\partial{(\boldsymbol{x_i-u})^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x_i-u})}}{\partial{\boldsymbol{u}}}\\
+&=\sum_{i=1}^n \boldsymbol{\Sigma^{-1}(x_i-u)}\\
+&=\boldsymbol{\Sigma^{-1} \sum_{i=1}^n (x_i-u)} \label{result1}
+\end{split}
+\end{equation}
+由式 \eqref{solveSigma3},\eqref{solveSigma4}可得：
+\begin{equation}
+\begin{split}
+    \frac{\partial{\ln{L(\boldsymbol{u},\boldsymbol{\Sigma})}}}{\partial{\boldsymbol{\Sigma}}}
+    &=-\frac{n}{2} \frac{\partial{\ln|\boldsymbol{\Sigma}|}}{\partial{\boldsymbol{\Sigma}}}-\frac{1}{2} \sum_{i=0}^n \frac{\partial{(\boldsymbol{x_i-u})^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x_i-u})}}{\partial{\boldsymbol{\Sigma}}}\\
+    &=\frac{1}{2} [\boldsymbol{\sum_{i=0}^n (\Sigma^{-1}(x_i-u)(x_i-u)^T \Sigma^{-1}} -n\boldsymbol{\Sigma^{-1}})^T\\
+    &+ \boldsymbol{\sum_{i=0}^n (\Sigma^{-1}(x_i-u)(x_i-u)^T \Sigma^{-1}} -n\boldsymbol{\Sigma^{-1}}) \\
+    &-\boldsymbol{\sum_{i=0}^n (\Sigma^{-1}(x_i-u)(x_i-u)^T \Sigma^{-1}} -n \boldsymbol{\Sigma^{-1}) \circ E }]\\
+    &=\boldsymbol{\sum_{i=0}^n (\Sigma^{-1}(x_i-u)(x_i-u)^T \Sigma^{-1}} -n \boldsymbol{\Sigma^{-1})}\\
+    &-\frac{1}{2} \boldsymbol{\sum_{i=0}^n (\Sigma^{-1}(x_i-u)(x_i-u)^T \Sigma^{-1}} -n \boldsymbol{\Sigma^{-1}) \circ E } \label{result2}
+\end{split}
+\end{equation}
+令式\eqref{result1}等于$\boldsymbol{0}$,左右两边乘以$\Sigma^{-1}$,可得$\boldsymbol{\hat{u}=\sum_{i=0}^n x_i=\overline{x}}$\\
+把结果带入式\eqref{result2},并令式\eqref{result2}等于$\boldsymbol{0}$,可得$\boldsymbol{\hat{\Sigma} =\frac{1}{n} \sum_{i=1}^n (x_i-\overline{x})(x_i-\overline{x})^T}$
+可以看出多元正态分布的极大似然估计值$\boldsymbol{\hat{u}}$为样本的均值，而$\boldsymbol{\hat{\Sigma}}$为样本的协方差矩阵
+
+\end{document}
